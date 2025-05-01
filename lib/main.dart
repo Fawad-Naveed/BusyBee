@@ -3,12 +3,19 @@ import 'package:busybee/services/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:busybee/pages/sign_in.dart';
 import 'package:busybee/provider/theme_provider.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest_10y.dart' as tz;
+final FlutterLocalNotificationsPlugin notificationsPlugin = FlutterLocalNotificationsPlugin();
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await DatabseHelper().reloadCurrentUser();
   Notifications().initialize();
+  final status = await notificationsPlugin.resolvePlatformSpecificImplementation<
+  AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
+print('Notification Permission: $status');
+
   tz.initializeTimeZones();
   runApp(const MainApp(),);
 }

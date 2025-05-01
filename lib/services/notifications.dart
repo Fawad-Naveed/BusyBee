@@ -13,7 +13,7 @@ class Notifications {
 
 
     const  initializationSettingsAndroid =
-        AndroidInitializationSettings('app_icon');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
     const  initializationSettingsIOS =DarwinInitializationSettings(
       requestAlertPermission: true,
