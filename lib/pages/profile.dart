@@ -73,17 +73,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-        foregroundColor: Colors.black,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
         
-        title: const Text("Edit Profile",
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+        title: Text("Edit Profile",
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
       ),
       body: SingleChildScrollView(
@@ -94,7 +94,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               image: 'https://i.postimg.cc/cCsYDjvj/user-2.png',
               imageUploadBtnPress: () {},
             ),
-            const Divider(),
+            Divider(color: Theme.of(context).dividerColor),
             Form(
               key: formKey,
               child: Column(
@@ -107,13 +107,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       //initialValue: usernameController.text,
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: const Color.fromARGB(255, 255, 116, 3).withOpacity(0.05),
+                        fillColor: Theme.of(context).primaryColor.withOpacity(0.05),
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16.0 * 1.5, vertical: 16.0),
                         border: const OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.all(Radius.circular(50)),
                         ),
+                         hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).hintColor,
+                          ),
                       ),
                     ),
                   ),
@@ -125,12 +128,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       //initialValue: emailController.text,
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: const Color.fromARGB(255, 255, 116, 3).withOpacity(0.05),
+                        fillColor: Theme.of(context).primaryColor.withOpacity(0.05),
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16.0 * 1.5, vertical: 16.0),
                         border: const OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.all(Radius.circular(50)),
+                        ),
+                        hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).hintColor,
                         ),
                       ),
                     ),
@@ -147,20 +153,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           setState(() {
                             is_password_visible = !is_password_visible;
                           });
-                        }, icon: is_password_visible? const Icon(
-                          Icons.visibility_off,
-                          size: 20,
-                        ): const Icon(
-                          Icons.visibility,
-                          size: 20,
-                        ),),
+                        }, 
+                         icon: Icon(
+                            is_password_visible ? Icons.visibility_off : Icons.visibility,
+                            size: 20,
+                            color: Theme.of(context).iconTheme.color,
+                          ),
+                        ),
                         filled: true,
-                        fillColor: const Color.fromARGB(255, 255, 116, 3).withOpacity(0.05),
+                        fillColor: Theme.of(context).primaryColor.withOpacity(0.05),
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16.0 * 1.5, vertical: 16.0),
                         border: const OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.all(Radius.circular(50)),
+                        ),
+                        hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).hintColor,
                         ),
                       ),
                     ),
@@ -170,27 +179,31 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     child: TextFormField(
                       controller: newPasswordController,
                       obscureText: is_confirm_password_visible,
+                      style: Theme.of(context).textTheme.bodyLarge,
                       validator: (value) => value!.isEmpty ? "Enter your new password" : null,
                       decoration: InputDecoration(
                         suffixIcon: IconButton(onPressed: (){
                           setState(() {
                             is_confirm_password_visible = !is_confirm_password_visible;
                           });
-                        }, icon: is_confirm_password_visible? const Icon(
-                          Icons.visibility_off,
-                          size: 20,
-                        ): const Icon(
-                          Icons.visibility,
-                          size: 20,
-                        ),),
+                        },
+                         icon: Icon(
+                            is_confirm_password_visible ? Icons.visibility_off : Icons.visibility,
+                            size: 20,
+                            color: Theme.of(context).iconTheme.color,
+                          ),
+                        ),
                         hintText: "New Password",
                         filled: true,
-                        fillColor: const Color.fromARGB(255, 255, 116, 3).withOpacity(0.05),
+                        fillColor: Theme.of(context).primaryColor.withOpacity(0.05),
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16.0 * 1.5, vertical: 16.0),
                         border: const OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.all(Radius.circular(50)),
+                        ),
+                        hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).hintColor,
                         ),
                       ),
                     ),
@@ -211,16 +224,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       //Navigator.pushReplacementNamed(context, '/login');
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .color!
-                          .withOpacity(0.08),
-                      foregroundColor: Colors.white,
+                      backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+                      foregroundColor: Theme.of(context).primaryColor,
                       minimumSize: const Size(double.infinity, 48),
                       shape: const StadiumBorder(),
                     ),
-                    child: const Text("Logout"),
+                    child: Text(
+                      "Logout",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      ),
                   ),
                 ),
                 const SizedBox(width: 16.0),
@@ -228,7 +240,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   width: 160,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 255, 116, 3),
+                      backgroundColor: Theme.of(context).primaryColor,
                       foregroundColor: Colors.white,
                       minimumSize: const Size(double.infinity, 48),
                       shape: const StadiumBorder(),
@@ -270,8 +282,7 @@ class ProfilePic extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
-          color:
-              Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.08),
+           color: Theme.of(context).dividerColor,
         ),
       ),
       child: Stack(

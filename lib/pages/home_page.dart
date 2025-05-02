@@ -157,114 +157,122 @@ class _Home_pageState extends State<Home_page> {
         return StatefulBuilder(
           builder: (context, setStateDialog) {
             return Dialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              child: Container(
-                padding: const EdgeInsets.all(30),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      //mainAxisAlignment: MainAxisAlignment.center,
-                      //crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.circle, color: Colors.orange, size: 15),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            task['title'] ?? '',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              decoration: isCompleted ? TextDecoration.lineThrough : null,
-                            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: Container(
+              padding: const EdgeInsets.all(30),
+              decoration: BoxDecoration(
+                color: Theme.of(context).dialogBackgroundColor, // Use theme color
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.circle, color: Colors.orange, size: 15),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          task['title'] ?? '',
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
                           ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        const Icon(Icons.calendar_today, size: 18),
-                        const SizedBox(width: 8),
-                        Text("${task['date'] ?? ''} • ${task['notificationTime'] ?? ''}",
-                            style: const TextStyle(fontSize: 16)),
-                      ],
-                    ),
-                    const SizedBox(height: 15),
-                    Text(task['description'] ?? '', style: const TextStyle(fontSize: 16)),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: isCompleted,
-                          onChanged: (val) async {
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Icon(Icons.calendar_today, 
+                        size: 18, 
+                        color: Theme.of(context).iconTheme.color,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        "${task['date'] ?? ''} • ${task['notificationTime'] ?? ''}",
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontSize: 18,
+                        )
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  Text(
+                    task['description'] ?? '', 
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontSize: 18,
+                        )
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: isCompleted,
+                        onChanged: (val) async {
+                          setStateDialog(() {
+                            isCompleted = val!;
+                            task['completed'] = isCompleted ? 'true' : 'false';
+                          });
+                          final updatedTask = Task(
+                            taskId: int.parse(task['index']!),
+                            title: task['title'] ?? '',
+                            description: task['description'] ?? '',
+                            dueDate: task['date'] ?? '',
+                            isCompleted: isCompleted ? 1 : 0,
+                            userId: db.currentUser?.userid ?? 0,
+                          );
+                          try {
+                            await db.updateTask(updatedTask);
+                            _loadTasks();
+                          } catch (e) {
                             setStateDialog(() {
-                              isCompleted = val!;
+                              isCompleted = !isCompleted;
                               task['completed'] = isCompleted ? 'true' : 'false';
                             });
-                            // Update the task in database
-                             final updatedTask = Task(
-                              taskId: int.parse(task['index']!),
-                              title: task['title'] ?? '',
-                              description: task['description'] ?? '',
-                              dueDate: task['date'] ?? '',
-                              isCompleted: isCompleted ? 1 : 0,
-                              userId: db.currentUser?.userid ?? 0, // Make sure to handle null case
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Failed to update task status: ${e.toString()}'))
                             );
-                            try{
-                                await db.updateTask(updatedTask);
-                                _loadTasks(); // Refresh the task list
-                              }
-                              catch (e) {
-                                  // Revert the change if update failed
-                                  setStateDialog(() {
-                                    isCompleted = !isCompleted;
-                                    task['completed'] = isCompleted ? 'true' : 'false';
-                                  });
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('Failed to update task status: ${e.toString()}'))
-                                  );
-                                }
-                          },
-                          shape: const CircleBorder(),
-                        ),
-                        Text(
-                          isCompleted ? "Completed" : "Mark as completed",
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Center(
-                      child: TextButton.icon(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.red.shade300,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        icon: const Icon(Icons.delete_outline),
-                        label: const Text("Delete"),
-                        onPressed: () {
-                          deletetask(task);
-                          Navigator.of(context).pop();
-                          setState(() {
-                            tasks.remove(task);
-                          });
+                          }
                         },
+                        shape: const CircleBorder(),
                       ),
+                      Text(
+                        isCompleted ? "Completed" : "Mark as completed",
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontSize: 18,
+                        )
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Center(
+                    child: TextButton.icon(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.red.shade300,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      icon: const Icon(Icons.delete_outline),
+                      label: const Text("Delete"),
+                      onPressed: () {
+                        deletetask(task);
+                        Navigator.of(context).pop();
+                        setState(() {
+                          tasks.remove(task);
+                        });
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            );
+            ),
+          );
           },
         );
       },
@@ -373,9 +381,9 @@ void _applyFilter(FilterType filter) {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.dark_mode),
+             leading: Icon(themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode),
               title: Text(
-                'Dark Mode',
+                themeProvider.isDarkMode ? 'Light Mode' : 'Dark Mode',
                 style: Theme.of(context).textTheme.bodyLarge, 
               ),
               onTap: () {

@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 
 class ThemeProvider with ChangeNotifier {
-  // Default to light theme
-  bool _isDarkMode = false;
+  ThemeMode _themeMode = ThemeMode.system;
 
-  bool get isDarkMode => _isDarkMode;
+  ThemeMode get themeMode => _themeMode;
+  bool get isDarkMode => _themeMode == ThemeMode.dark;
+
+  ThemeProvider() {
+    _initTheme();
+  }
+
+  Future<void> _initTheme() async {
+    // You can add saved theme preference loading here later
+    _themeMode = ThemeMode.system;
+    notifyListeners();
+  }
 
   void toggleTheme() {
-    _isDarkMode = !_isDarkMode;
-    print("Dark Mode Toggled: $_isDarkMode");  
-    notifyListeners(); // Notify listeners (UI) to rebuild
+    _themeMode = isDarkMode ? ThemeMode.light : ThemeMode.dark;
+    notifyListeners();
   }
 }
