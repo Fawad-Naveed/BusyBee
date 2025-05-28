@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.busybee"
+    namespace = "com.example.BusyBee"
     compileSdk = 35 //flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
     
@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.busybee"
+        applicationId = "com.example.BusyBee"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

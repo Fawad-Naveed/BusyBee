@@ -1,4 +1,4 @@
-import 'package:busybee/services/notifications.dart';
+import 'package:BusyBee/services/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

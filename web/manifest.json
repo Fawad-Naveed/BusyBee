@@ -1,6 +1,6 @@
 {
-    "name": "busybee",
-    "short_name": "busybee",
+    "name": "BusyBee",
+    "short_name": "BusyBee",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

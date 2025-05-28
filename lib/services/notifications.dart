@@ -34,9 +34,9 @@ class Notifications {
   // notifications detial setup
   NotificationDetails _notificationDetails() {
     const androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'Busybee_android_channel_id',
-      'Busybee_android_channel_name',
-      channelDescription: 'Busybee_android_channel_description',
+      'BusyBee_android_channel_id',
+      'BusyBee_android_channel_name',
+      channelDescription: 'BusyBee_android_channel_description',
       importance: Importance.max,
       priority: Priority.high,
       showWhen: false,

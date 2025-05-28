@@ -1,4 +1,4 @@
-package com.example.busybee
+package com.example.BusyBee
 
 import io.flutter.embedding.android.FlutterActivity
 

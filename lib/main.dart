@@ -1,8 +1,8 @@
-import 'package:busybee/services/databse_helper.dart';
-import 'package:busybee/services/notifications.dart';
+import 'package:BusyBee/services/databse_helper.dart';
+import 'package:BusyBee/services/notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:busybee/pages/sign_in.dart';
-import 'package:busybee/provider/theme_provider.dart';
+import 'package:BusyBee/pages/sign_in.dart';
+import 'package:BusyBee/provider/theme_provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest_10y.dart' as tz;

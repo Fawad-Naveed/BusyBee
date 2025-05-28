@@ -1,4 +1,4 @@
-import 'package:busybee/services/databse_helper.dart';
+import 'package:BusyBee/services/databse_helper.dart';
 import 'package:flutter/material.dart';
 
 class EditProfileScreen extends StatefulWidget {

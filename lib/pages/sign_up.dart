@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:busybee/JSON/user.dart';
-import 'package:busybee/services/databse_helper.dart';
+import 'package:BusyBee/JSON/user.dart';
+import 'package:BusyBee/services/databse_helper.dart';
 
 class SignUp extends StatefulWidget{
   @override

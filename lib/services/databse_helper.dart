@@ -1,5 +1,5 @@
-import 'package:busybee/JSON/task.dart';
-import 'package:busybee/JSON/user.dart';
+import 'package:BusyBee/JSON/task.dart';
+import 'package:BusyBee/JSON/user.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';

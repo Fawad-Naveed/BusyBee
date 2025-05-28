@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:busybee/JSON/user.dart';
-import 'package:busybee/pages/home_page.dart';
-import 'package:busybee/pages/sign_up.dart';
-import 'package:busybee/services/databse_helper.dart';
+import 'package:BusyBee/JSON/user.dart';
+import 'package:BusyBee/pages/home_page.dart';
+import 'package:BusyBee/pages/sign_up.dart';
+import 'package:BusyBee/services/databse_helper.dart';
 
 class SignIn extends StatefulWidget {
   @override
