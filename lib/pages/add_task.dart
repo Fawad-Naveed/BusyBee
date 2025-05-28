@@ -116,10 +116,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             TextField(
               controller: _notificationTimeController,
               decoration: const InputDecoration(
-                hintText: 'Notification Time',
-                hintStyle: TextStyle(fontSize: 18, color: Colors.grey),
+                hintText: 'Notification Time(24-hour format, e.g., 14:30)',
+                hintStyle: TextStyle(fontSize: 12, color: Colors.grey),
               ),
-              keyboardType: TextInputType.datetime,
+              //keyboardType: TextInputType.datetime,
             ),
             const SizedBox(height: 30),
             Container(

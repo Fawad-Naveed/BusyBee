@@ -134,6 +134,7 @@ class _SignUpState extends State<SignUp> {
                                     child: TextFormField(
                                       //validator: (value) => value!.isEmpty ? "Please enter your username" : null,
                                       controller: usernameController,
+                                      style: TextStyle(color: Colors.grey),
                                       decoration: InputDecoration(
                                         icon: Icon(Icons.person,color:Colors.grey),
                                         labelText: "Username",
@@ -150,6 +151,7 @@ class _SignUpState extends State<SignUp> {
                                     child: TextFormField(
                                       //validator: (value) => value!.isEmpty ? "Please enter your email" : null,
                                       controller: emailController,
+                                      style: TextStyle(color: Colors.grey),
                                       decoration: InputDecoration(
                                         icon: Icon(Icons.email,color:Colors.grey),
                                         labelText: "Email",
@@ -166,6 +168,7 @@ class _SignUpState extends State<SignUp> {
                                     child: TextFormField(
                                       //validator: (value) => value!.isEmpty ? "Please enter your password" : null,
                                       controller: passwordController,
+                                      style: TextStyle(color: Colors.grey),
                                       obscureText: isPasswordVisible,
                                       decoration: InputDecoration(
                                         suffixIcon: IconButton(onPressed: (){

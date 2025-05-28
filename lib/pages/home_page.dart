@@ -1,5 +1,6 @@
   import 'package:BusyBee/JSON/task.dart';
   import 'package:BusyBee/pages/add_task.dart';
+import 'package:BusyBee/pages/help_screen.dart';
   import 'package:BusyBee/pages/profile.dart';
   import 'package:flutter/material.dart';
   import 'package:BusyBee/services/databse_helper.dart';
@@ -159,118 +160,123 @@
             builder: (context, setStateDialog) {
               return Dialog(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              child: Container(
-                padding: const EdgeInsets.all(30),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).dialogBackgroundColor, // Use theme color
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Icons.circle, color: Colors.orange, size: 15),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            task['title'] ?? '',
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Icon(Icons.calendar_today, 
-                          size: 18, 
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          "${task['date'] ?? ''} • ${task['notificationTime'] ?? ''}",
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontSize: 18,
-                          )
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 15),
-                    Text(
-                      task['description'] ?? '', 
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontSize: 18,
-                          )
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: isCompleted,
-                          onChanged: (val) async {
-                            setStateDialog(() {
-                              isCompleted = val!;
-                              task['completed'] = isCompleted ? 'true' : 'false';
-                            });
-                            final updatedTask = Task(
-                              taskId: int.parse(task['index']!),
-                              title: task['title'] ?? '',
-                              description: task['description'] ?? '',
-                              dueDate: task['date'] ?? '',
-                              isCompleted: isCompleted ? 1 : 0,
-                              userId: db.currentUser?.userid ?? 0,
-                            );
-                            try {
-                              await db.updateTask(updatedTask);
-                              _loadTasks();
-                            } catch (e) {
-                              setStateDialog(() {
-                                isCompleted = !isCompleted;
-                                task['completed'] = isCompleted ? 'true' : 'false';
-                              });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Failed to update task status: ${e.toString()}'))
-                              );
-                            }
-                          },
-                          shape: const CircleBorder(),
-                        ),
-                        Text(
-                          isCompleted ? "Completed" : "Mark as completed",
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontSize: 18,
-                          )
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Center(
-                      child: TextButton.icon(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.red.shade300,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        icon: const Icon(Icons.delete_outline),
-                        label: const Text("Delete"),
-                        onPressed: () {
-                          deletetask(task);
-                          Navigator.of(context).pop();
-                          setState(() {
-                            tasks.remove(task);
-                          });
-                        },
+              child: SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.85),
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).dialogBackgroundColor,
+                        borderRadius: BorderRadius.circular(20),
                       ),
+                      child:Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.circle, color: Colors.orange, size: 15),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                task['title'] ?? '',
+                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Icon(Icons.calendar_today, 
+                              size: 18, 
+                              color: Theme.of(context).iconTheme.color,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              "${task['date'] ?? ''} • ${task['notificationTime'] ?? ''}",
+                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                fontSize: 18,
+                              )
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 15),
+                        Text(
+                          task['description'] ?? '', 
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                fontSize: 18,
+                              )
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: isCompleted,
+                              onChanged: (val) async {
+                                setStateDialog(() {
+                                  isCompleted = val!;
+                                  task['completed'] = isCompleted ? 'true' : 'false';
+                                });
+                                final updatedTask = Task(
+                                  taskId: int.parse(task['index']!),
+                                  title: task['title'] ?? '',
+                                  description: task['description'] ?? '',
+                                  dueDate: task['date'] ?? '',
+                                  isCompleted: isCompleted ? 1 : 0,
+                                  userId: db.currentUser?.userid ?? 0,
+                                );
+                                try {
+                                  await db.updateTask(updatedTask);
+                                  _loadTasks();
+                                } catch (e) {
+                                  setStateDialog(() {
+                                    isCompleted = !isCompleted;
+                                    task['completed'] = isCompleted ? 'true' : 'false';
+                                  });
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Failed to update task status: ${e.toString()}'))
+                                  );
+                                }
+                              },
+                              shape: const CircleBorder(),
+                            ),
+                            Text(
+                              isCompleted ? "Completed" : "Mark as completed",
+                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                fontSize: 18,
+                              )
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Center(
+                          child: TextButton.icon(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.red.shade300,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            icon: const Icon(Icons.delete_outline),
+                            label: const Text("Delete"),
+                            onPressed: () {
+                              deletetask(task);
+                              Navigator.of(context).pop();
+                              setState(() {
+                                tasks.remove(task);
+                              });
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             );
@@ -409,6 +415,12 @@
                   'Help',
                   style: Theme.of(context).textTheme.bodyLarge, 
                 ),
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HelpPage()),
+                  );
+                },
               ),
             ],
           ),

@@ -138,131 +138,142 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            Positioned.fill(
+            Positioned(
               top: 200,
+              left: 0,
+              right: 0,
+              bottom: 0,
               child: SlideTransition(
                 position: animationOffset,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(60),
-                      topRight: Radius.circular(60),
-                    ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(60),
+                    topRight: Radius.circular(60),
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 30,right: 30,bottom: 30),
-                    child: ListView(
-                      children: [
-                        Column(
-                          children: <Widget>[
-                            SizedBox(height: 60),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Color.fromRGBO(225, 95, 27, .3),
-                                    blurRadius: 20,
-                                    offset: Offset(0, 10),
-                                  )
-                                ],
-                              ),
-                              child: Form(
-                                key: formKey,
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey))),
-                                      child: TextFormField(
-                                        controller: usernameController,
-                                        validator: (value) => value!.isEmpty ? "Please enter your username" : null,
-                                        decoration: InputDecoration(
-                                          icon: Icon(Icons.person, color: Colors.grey),
-                                          labelText: "Username",
-                                          labelStyle: TextStyle(color: Colors.grey),
-                                          border: InputBorder.none,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey))),
-                                      child: TextFormField(
-                                        controller: passwordController,
-                                        validator: (value) => value!.isEmpty ? "Please enter your password" : null,
-                                        obscureText: isPasswordVisible,
-                                        decoration: InputDecoration(
-                                          icon: Icon(Icons.lock, color: Colors.grey),
-                                          suffixIcon: IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                isPasswordVisible = !isPasswordVisible;
-                                              });
-                                            },
-                                            icon: Icon(isPasswordVisible ? Icons.visibility : Icons.visibility_off, color: Colors.grey),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(60),
+                        topRight: Radius.circular(60),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 30,right: 30,bottom: 30),
+                      child: ListView(
+                        children: [
+                          Column(
+                            children: <Widget>[
+                              SizedBox(height: 60),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color.fromRGBO(225, 95, 27, .3),
+                                      blurRadius: 20,
+                                      offset: Offset(0, 10),
+                                    )
+                                  ],
+                                ),
+                                child: Form(
+                                  key: formKey,
+                                  child: Column(
+                                    children: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey))),
+                                        child: TextFormField(
+                                          controller: usernameController,
+                                          validator: (value) => value!.isEmpty ? "Please enter your username" : null,
+                                          style: TextStyle(color: Colors.grey),
+                                          decoration: InputDecoration(
+                                            icon: Icon(Icons.person, color: Colors.grey),
+                                            labelText: "Username",
+                                            labelStyle: TextStyle(color: Colors.grey),
+                                            border: InputBorder.none,
                                           ),
-                                          labelText: "Password",
-                                          labelStyle: TextStyle(color: Colors.grey),
-                                          border: InputBorder.none,
                                         ),
                                       ),
+                                      Container(
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey))),
+                                        child: TextFormField(
+                                          controller: passwordController,
+                                          validator: (value) => value!.isEmpty ? "Please enter your password" : null,
+                                          style: TextStyle(color: Colors.grey),
+                                          obscureText: isPasswordVisible,
+                                          decoration: InputDecoration(
+                                            icon: Icon(Icons.lock, color: Colors.grey),
+                                            suffixIcon: IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  isPasswordVisible = !isPasswordVisible;
+                                                });
+                                              },
+                                              icon: Icon(isPasswordVisible ? Icons.visibility : Icons.visibility_off, color: Colors.grey),
+                                            ),
+                                            labelText: "Password",
+                                            labelStyle: TextStyle(color: Colors.grey),
+                                            border: InputBorder.none,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 60),
+                              ElevatedButton(
+                                onPressed: () {
+                                  if (formKey.currentState!.validate()) {
+                                    signin();
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color.fromARGB(255, 230, 81, 0),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  minimumSize: Size(double.infinity, 50),
+                                  padding: EdgeInsets.symmetric(horizontal: 50),
+                                ),
+                                child: Text(
+                                  "Login",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      "Don't have an account?",
+                                      style: TextStyle(color: Colors.grey),
                                     ),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      "Sign Up",
+                                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                                    )
                                   ],
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 60),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  signin();
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color.fromARGB(255, 230, 81, 0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                minimumSize: Size(double.infinity, 50),
-                                padding: EdgeInsets.symmetric(horizontal: 50),
-                              ),
-                              child: Text(
-                                "Login",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    "Don't have an account?",
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    "Sign Up",
-                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            isLogin ? Text("Incorrect username or password?", style: TextStyle(color: Colors.red)) : const SizedBox(),
-                          ],
-                        ),
-                      ],
+                              SizedBox(height: 20),
+                              isLogin ? Text("Incorrect username or password?", style: TextStyle(color: Colors.red)) : const SizedBox(),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
